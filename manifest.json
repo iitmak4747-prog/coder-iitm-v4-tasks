@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Coder IITM — Tracker & Blocker",
+  "version": "3.0",
+  "description": "Professional productivity suite — track, block, focus. Always-on background tracking.",
+  "icons": {
+    "128": "icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "alarms",
+    "notifications"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "web_accessible_resources": [
+    {
+      "resources": ["blocked.html", "blocked.css", "blocked.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

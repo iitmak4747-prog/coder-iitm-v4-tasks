@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coder IITM</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon-wrap">⚡</div>
+    <div>
+      <div class="brand-name">Coder IITM</div>
+      <div class="brand-version">PRO v3.0 &nbsp;<span class="godmode-badge">GODMODE</span></div>
+    </div>
+  </div>
+  <div id="totalUsage" class="total-usage">⏱ 0s today</div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="tab-btn active" data-tab="track">Track</button>
+  <button class="tab-btn" data-tab="block">Block</button>
+  <button class="tab-btn" data-tab="speed">Speed</button>
+  <button class="tab-btn" data-tab="pomo">Pomo</button>
+  <button class="tab-btn" data-tab="notes">Notes</button>
+  <button class="tab-btn" data-tab="tasks">Tasks</button>
+</nav>
+
+<!-- ===== TRACK TAB ===== -->
+<section class="tab-content active" id="tab-track">
+
+  <!-- Live bar -->
+  <div class="live-bar">
+    <span class="live-dot"></span>
+    <span id="liveDomain">—</span>
+    <span id="liveTime" class="live-time">0s</span>
+  </div>
+
+  <!-- Date picker -->
+  <div class="date-row">
+    <label class="small-label">Date:</label>
+    <select id="datePicker" class="picker"></select>
+  </div>
+
+  <!-- Today's Summary Chart -->
+  <div class="chart-section-label">Today's Breakdown</div>
+  <canvas id="chart" width="362" height="130"></canvas>
+  <div class="chart-legend">
+    <span><span class="legend-dot study"></span>Study</span>
+    <span><span class="legend-dot waste"></span>Waste</span>
+    <span><span class="legend-dot total"></span>Total</span>
+  </div>
+
+  <!-- 7-Day Line Graph -->
+  <div class="chart-section-label">7-Day History</div>
+  <canvas id="dayGraph" width="362" height="100"></canvas>
+
+  <!-- Site list -->
+  <div id="siteList" class="site-list"></div>
+
+</section>
+
+<!-- ===== BLOCK TAB ===== -->
+<section class="tab-content" id="tab-block">
+  <p class="section-title">Blocked Sites</p>
+  <div class="block-input-row">
+    <input id="blockInput" class="text-input" placeholder="instagram.com" />
+    <button id="addBlockBtn" class="btn btn-danger">+ Add</button>
+  </div>
+  <ul id="blockList" class="block-list"></ul>
+</section>
+
+<!-- ===== SPEED TAB ===== -->
+<section class="tab-content" id="tab-speed">
+  <p class="section-title">Video Speed Booster</p>
+  <div class="speed-display">
+    <span id="speedVal">1.0</span><span class="speed-unit">x</span>
+  </div>
+  <input type="range" id="speedSlider" min="0.25" max="15" step="0.25" value="1" class="slider" />
+  <div class="preset-row">
+    <button class="preset-btn" data-speed="0.5">0.5x</button>
+    <button class="preset-btn active" data-speed="1">1x</button>
+    <button class="preset-btn" data-speed="1.5">1.5x</button>
+    <button class="preset-btn" data-speed="2">2x</button>
+    <button class="preset-btn" data-speed="5">5x</button>
+    <button class="preset-btn" data-speed="10">10x</button>
+    <button class="preset-btn" data-speed="15">15x</button>
+  </div>
+  <button id="applySpeed" class="btn btn-primary" style="margin-top:12px;width:100%">Apply to Page</button>
+</section>
+
+<!-- ===== POMO TAB ===== -->
+<section class="tab-content" id="tab-pomo">
+
+  <!-- Duration Settings -->
+  <div class="pomo-settings">
+    <div class="pomo-dur-group">
+      <div class="pomo-dur-label">Study (min)</div>
+      <input type="number" id="studyMinInput" class="pomo-dur-input" value="25" min="1" max="120" />
+    </div>
+    <div class="pomo-dur-group">
+      <div class="pomo-dur-label">Break (min)</div>
+      <input type="number" id="breakMinInput" class="pomo-dur-input" value="5" min="1" max="60" />
+    </div>
+    <button id="applyDurBtn" class="btn btn-ghost" style="padding:6px 12px;font-size:11px;white-space:nowrap">Set</button>
+  </div>
+
+  <div class="pomo-wrap">
+    <svg class="pomo-ring" viewBox="0 0 120 120">
+      <circle class="ring-bg" cx="60" cy="60" r="54"/>
+      <circle id="ringProgress" class="ring-fg" cx="60" cy="60" r="54"
+        stroke-dasharray="339.3" stroke-dashoffset="0"/>
+    </svg>
+    <div class="pomo-center">
+      <div id="pomoLabel" class="pomo-label">STUDY</div>
+      <div id="pomoTime"  class="pomo-time">25:00</div>
+    </div>
+  </div>
+
+  <div class="pomo-controls">
+    <button id="pomoStart" class="btn btn-primary">▶ Start</button>
+    <button id="pomoReset" class="btn btn-ghost">↺ Reset</button>
+  </div>
+  <div id="pomoStatus" class="pomo-status"></div>
+
+  <p class="pomo-history-title">Session History</p>
+  <div id="pomoHistory" class="pomo-history">
+    <div class="empty-state">No sessions yet today.</div>
+  </div>
+
+</section>
+
+<!-- ===== NOTES TAB ===== -->
+<section class="tab-content" id="tab-notes">
+  <div class="notes-header">
+    <p class="section-title">Quick Notes</p>
+    <span id="notesSaved" class="saved-badge">Saved ✓</span>
+  </div>
+  <textarea id="notesArea" class="notes-area" placeholder="Type here… auto-saves instantly."></textarea>
+</section>
+
+<!-- ===== TASKS TAB ===== -->
+<section class="tab-content" id="tab-tasks">
+  <div class="tasks-header">
+    <p class="section-title">Tasks</p>
+    <div id="tasksBlockStatus" class="tasks-block-status tasks-blocked">
+      🔴 Sites Blocked
+    </div>
+  </div>
+  <div class="task-hint" id="taskHint">Complete all tasks to unblock sites.</div>
+  <div class="block-input-row">
+    <input id="taskInput" class="text-input" placeholder="Add a task…" />
+    <button id="addTaskBtn" class="btn btn-primary">+ Add</button>
+  </div>
+  <ul id="taskList" class="task-list"></ul>
+  <div id="taskEmpty" class="empty-state" style="display:none">No tasks. Sites are unblocked! 🎉</div>
+</section>
+
+<script src="popup.js"></script>
+</body>
+</html>
